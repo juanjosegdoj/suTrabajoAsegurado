@@ -2,7 +2,6 @@ package com.sutrabajoasegurado.restcontroller;
 
 import com.sutrabajoasegurado.entity.ProveedorEntity;
 import com.sutrabajoasegurado.service.ProveedorService;
-import com.sutrabajoasegurado.service.impl.ProveedorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +42,7 @@ public class ProveedorRestController {
             status = HttpStatus.CREATED;
 
         }
-        catch (Exception excepcion){
+        catch (BindException excepcion){
             response.put("Mensaje", excepcion.getMessage());
             status = HttpStatus.CONFLICT;
         }
@@ -51,7 +50,7 @@ public class ProveedorRestController {
     }
 
 
-    @PostMapping("")
+    @PostMapping("/update")
     public ResponseEntity<Map<String, Object>> update(@RequestBody ProveedorEntity proveedorEntity) {
 
         Map<String, Object> response = new HashMap<>();

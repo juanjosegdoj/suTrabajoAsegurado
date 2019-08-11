@@ -9,7 +9,7 @@ public interface ProveedorService {
 
     List<ProveedorEntity> listAll();
 
-    void save(ProveedorEntity proveedorEntity);
+    void save(ProveedorEntity proveedorEntity) throws Exception;
 
     ProveedorEntity findById(Long id);
 

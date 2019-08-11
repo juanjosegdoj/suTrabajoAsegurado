@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.sutrabajoasegurado.utilitarios.validator.*;
+
 
 @Service
 public class ProveedorServiceImpl implements ProveedorService {
@@ -22,8 +24,21 @@ public class ProveedorServiceImpl implements ProveedorService {
     }
 
     @Override
-    public void save(ProveedorEntity proveedorEntity) {
-        proveedorRepository.save(proveedorEntity);
+    public void save(ProveedorEntity proveedorEntity) throws Exception {
+
+        if(isPalindromo(proveedorEntity.getNombre())){
+            throw new Exception("El nombre no puede ser palin" +
+                    "droma");
+        }
+        else if(!direccionIsCorrect(proveedorEntity.getDireccion())){
+            throw new Exception("La dirección es incorrecta");
+        }
+        else if(isSunday()){
+            throw new Exception("Los domingos no se realiza transacciones");
+        }
+        else{
+            proveedorRepository.save(proveedorEntity);
+        }
     }
 
     @Override
@@ -43,4 +58,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     public ProveedorEntity findById(Long id) {
         return proveedorRepository.findById(id).orElse(null);
     }
+
+
 }
+
