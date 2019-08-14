@@ -1,5 +1,6 @@
 package com.sutrabajoasegurado.entity;
 
+import com.sutrabajoasegurado.model.Proveedor;
 import org.junit.Test;
 
 import java.net.BindException;
@@ -11,11 +12,13 @@ import static org.junit.Assert.*;
 
 class ProveedorEntityTest {
 
-    @Test
-    public void caracteresMenosDe3NoPermitidosEnElNombre(){
 
-        ProveedorEntity proveedor = new ProveedorEntity('AUL',1234566,'CLSasd');
-        proveedor.setNombre("Au");
+    @Test(expected = Exception.class)
+    public void direccionEsValida(){
+
+        Proveedor proveedor1 = new Proveedor();
+
+        proveedor1.setDireccion("CL 23aaa");
     }
 
 }

@@ -1,6 +1,7 @@
 package com.sutrabajoasegurado.restcontroller;
 
 import com.sutrabajoasegurado.entity.ProveedorEntity;
+import com.sutrabajoasegurado.model.Proveedor;
 import com.sutrabajoasegurado.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,29 +21,32 @@ public class ProveedorRestController {
     private ProveedorService proveedorService;
 
     @GetMapping("")
-    public List<ProveedorEntity> listAll (){
+    public List<Proveedor> listAll (){
         return proveedorService.listAll();
     }
 
     @GetMapping("/{codigo}")
-    public ProveedorEntity findById(@PathVariable Long codigo){
+    public Proveedor findById(@PathVariable Long codigo) throws Exception {
         return proveedorService.findById(codigo);
     }
 
     @PostMapping("")
-    public ResponseEntity<Map<String, Object>> insert(@RequestBody ProveedorEntity proveedorEntity) {
+    public ResponseEntity<Map<String, Object>> insert(@RequestBody Proveedor proveedor) {
 
         Map<String, Object> response = new HashMap<>();
         HttpStatus status;
         try {
-            proveedorService.save(proveedorEntity);
-            response.put("Mensaje","El proveedor "+proveedorEntity.getNombre()+
+            proveedorService.save(proveedor);
+            response.put("Mensaje","El proveedor "+proveedor.getNombre()+
                     " ha sido registrado exitosamente.");
 
             status = HttpStatus.CREATED;
 
+        }catch (BindException excepcion){
+            response.put("Mensaje", excepcion.getMessage());
+            status = HttpStatus.CONFLICT;
         }
-        catch (BindException excepcion){
+        catch (Exception excepcion){
             response.put("Mensaje", excepcion.getMessage());
             status = HttpStatus.CONFLICT;
         }
@@ -51,13 +55,13 @@ public class ProveedorRestController {
 
 
     @PostMapping("/update")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody ProveedorEntity proveedorEntity) {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody Proveedor proveedor) {
 
         Map<String, Object> response = new HashMap<>();
         HttpStatus status;
         try {
-            proveedorService.update(proveedorEntity);
-            response.put("Mensaje","El proveedor "+proveedorEntity.getNombre()+
+            proveedorService.update(proveedor);
+            response.put("Mensaje","El proveedor "+proveedor.getNombre()+
                     " ha sido registrado exitosamente.");
 
             status = HttpStatus.CREATED;
